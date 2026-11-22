@@ -4,7 +4,7 @@
     {
       "name": "site",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8777", "--directory", "/Users/manath/myAI/tg_bot_trener/site"],
+      "runtimeArgs": ["-m", "http.server", "8777"],
       "port": 8777
     }
   ]
