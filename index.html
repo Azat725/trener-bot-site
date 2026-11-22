@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Дарья — персональный фитнес-тренер в Нижнекамске</title>
-<meta name="description" content="Персональные, сплит- и групповые тренировки в Нижнекамске и онлайн. Программа под ваш график, питание без жёстких диет, контроль прогресса.">
+<meta name="description" content="Персональные, сплит- и групповые тренировки в Нижнекамске и онлайн. Программа под ваш график, курс по питанию без жёстких диет и сборник рецептов с КБЖУ.">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#ECEEF2" media="(prefers-color-scheme: light)" data-theme-color="light">
 <meta name="theme-color" content="#0B0E17" media="(prefers-color-scheme: dark)" data-theme-color="dark">
@@ -25,7 +25,10 @@
 <meta property="og:title" content="Дарья — персональный фитнес-тренер в Нижнекамске">
 <meta property="og:description" content="Тренировки в зале и онлайн, сплиты с партнёром, питание и техника. Работаем над телом вашей мечты — без надрыва и скучных упражнений.">
 <meta property="og:url" content="https://manath-iq.github.io/trener-bot-site/">
-<meta property="og:image" content="https://manath-iq.github.io/trener-bot-site/assets/img/og-cover.png">
+<meta property="og:image" content="https://manath-iq.github.io/trener-bot-site/assets/img/og-cover.png?v=2">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Дарья — персональный фитнес-тренер в Нижнекамске и онлайн">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
@@ -34,11 +37,7 @@
 <link rel="preload" href="assets/fonts/manrope-600-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/img/hero-bg.webp" as="image">
 <link rel="stylesheet" href="assets/fonts/fonts.css?v=2">
-<<<<<<< HEAD
-<link rel="stylesheet" href="assets/css/styles.css?v=11">
-=======
-<link rel="stylesheet" href="assets/css/styles.css?v=9">
->>>>>>> 545a56d7216de54fe016dfbfce32b6a32074428b
+<link rel="stylesheet" href="assets/css/styles.css?v=20">
 <noscript><style>.cutout__img{opacity:1}.rv{opacity:1;transform:none}</style></noscript>
 </head>
 <body>
@@ -57,7 +56,6 @@
     <symbol id="i-target" viewBox="0 0 24 24"><circle cx="11" cy="13" r="8"/><circle cx="11" cy="13" r="4.2"/><circle cx="11" cy="13" r="1" fill="currentColor"/><path d="M11 13 20.5 3.5M17 3.5h3.5V7"/></symbol>
     <symbol id="i-dumbbell" viewBox="0 0 24 24"><path d="M5.5 8.5v7M3 10v4M18.5 8.5v7M21 10v4M5.5 12h13"/><rect x="5.5" y="6.5" width="3" height="11" rx="1"/><rect x="15.5" y="6.5" width="3" height="11" rx="1"/></symbol>
     <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13.4 2.5 5 13.2h5.4L9.7 21.5 19 10.4h-5.6z"/></symbol>
-    <symbol id="i-info" viewBox="0 0 24 24"><path d="M12 10.5v6.5M12 7v.01" stroke-width="2.6"/></symbol>
     <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M6 9.5 12 15.5 18 9.5"/></symbol>
     <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5.5v13M5.5 12h13"/></symbol>
     <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
@@ -84,6 +82,7 @@
 
     <nav class="nav__links" aria-label="Основная навигация">
       <a href="#formats">Цены</a>
+      <a href="#nutrition">Курс и рецепты</a>
       <a href="#work">Подход</a>
       <a href="#gym">В зале</a>
       <a href="#reviews">Отзывы</a>
@@ -100,14 +99,15 @@
         <span>Записаться</span>
         <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg>
       </button>
-      <button class="burger" type="button" aria-label="Меню" aria-expanded="false" data-burger>
+      <button class="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="site-menu" data-burger>
         <svg class="ic" aria-hidden="true"><use href="#i-menu"/></svg>
       </button>
     </div>
   </div>
 
-  <div class="nav__panel" data-nav-panel hidden>
+  <div class="nav__panel" id="site-menu" data-nav-panel hidden>
     <a href="#formats">Варианты тренировок</a>
+    <a href="#nutrition">Курс и рецепты</a>
     <a href="#work">Работа со мной</a>
     <a href="#gym">В зале</a>
     <a href="#reviews">Отзывы</a>
@@ -116,7 +116,7 @@
     <button class="nav__theme" type="button" data-theme-toggle aria-pressed="false">
       <svg class="ic themebtn__moon" aria-hidden="true"><use href="#i-moon"/></svg>
       <svg class="ic themebtn__sun" aria-hidden="true"><use href="#i-sun"/></svg>
-      <span data-theme-label>Тёмная тема</span>
+      <span>Тёмная тема</span>
     </button>
     <button class="btn btn--primary btn--wide" type="button" data-open-modal>
       <span>Записаться на тренировку</span>
@@ -159,7 +159,7 @@
       </svg>
 
       <figure class="cutout cutout--hero" data-cutout>
-        <img class="cutout__img" src="assets/img/daria-hero.webp?v=2" alt="Дарья, персональный фитнес-тренер" width="1024" height="1813" fetchpriority="high">
+        <img class="cutout__img" src="assets/img/daria-hero-plain.webp" alt="Дарья, персональный фитнес-тренер" width="1024" height="1813" fetchpriority="high">
       </figure>
 
       <span class="hero__sign script" aria-hidden="true">Дарья</span>
@@ -173,7 +173,7 @@
       <ul class="perks">
         <li class="perk">
           <span class="perk__ic"><svg class="ic" aria-hidden="true"><use href="#i-list"/></svg></span>
-          <p><b>Подходит всем:</b> работаю с клиентами любого возраста и уровня подготовки</p>
+          <p><b>Индивидуальная нагрузка:</b> учитываю ваш уровень подготовки</p>
         </li>
         <li class="perk">
           <span class="perk__ic"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg></span>
@@ -186,7 +186,7 @@
       </ul>
 
       <div class="cta-row">
-        <button class="strip" type="button" data-open-modal data-preset="Пробная тренировка">
+        <button class="strip" type="button" data-open-modal data-trial>
           <span>Запишитесь на пробное занятие</span>
           <svg class="ic" aria-hidden="true"><use href="#i-arrow-long"/></svg>
         </button>
@@ -203,13 +203,9 @@
     <dl class="hero__stats rv" data-reveal style="--i:4">
       <div><dt>4 года</dt><dd>в профессии</dd></div>
       <div><dt>1:1</dt><dd>внимание на каждом подходе</dd></div>
-      <div><dt>5,0<svg class="ic" aria-hidden="true"><use href="#i-star"/></svg></dt><dd>рейтинг · 25 отзывов на <span class="ph">[площадка]</span></dd></div>
+      <div><dt>5,0<svg class="ic" aria-hidden="true"><use href="#i-star"/></svg></dt><dd>рейтинг · 25 отзывов</dd></div>
     </dl>
   </div>
-
-  <a class="scrollcue" href="#formats" aria-label="Листать дальше">
-    <span class="scrollcue__btn"><svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg></span>
-  </a>
 </section>
 
 <!-- ============ PRICES ============ -->
@@ -257,7 +253,7 @@
               <span class="pricerow__price"><span class="pricebox"><b>6 000</b><i>4 недели</i></span></span>
             </li>
             <li class="pricerow">
-              <span class="pricerow__main"><b>Курс по питанию</b><i>6 модулей · КБЖУ без заморочек · список покупок</i></span>
+              <a class="pricerow__main price-course" href="#nutrition"><b>Курс «ПП по Любви»</b><i>7 уроков о питании · посмотреть программу</i></a>
               <span class="pricerow__price"><span class="pricebox"><b>690</b><i>доступ навсегда</i></span></span>
             </li>
             <li class="pricerow">
@@ -268,16 +264,7 @@
         </div>
       </div>
 
-      <p class="note">
-        <span class="note__ic"><svg class="ic" aria-hidden="true"><use href="#i-info"/></svg></span>
-        Длительность одной тренировки — 1 час.
-      </p>
-
       <div class="cta-row cta-row--panel">
-        <button class="strip" type="button" data-open-modal data-preset="Пробная тренировка">
-          <span>Пробное занятие + тестирование</span>
-          <svg class="ic" aria-hidden="true"><use href="#i-arrow-long"/></svg>
-        </button>
         <button class="badge" type="button" data-open-modal data-magnetic aria-label="Записаться на тренировку">
           <svg class="badge__ring" viewBox="0 0 200 200" aria-hidden="true">
             <path id="ring-2" d="M100 100m-80 0a80 80 0 1 1 160 0a80 80 0 1 1-160 0" fill="none"/>
@@ -285,6 +272,48 @@
           </svg>
           <span class="badge__text">Записаться<br>на тренировку</span>
         </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NUTRITION ============ -->
+<section class="sec" aria-labelledby="nutrition-title">
+  <div class="shell">
+    <div class="nutrition" id="nutrition">
+      <header class="nutrition__intro">
+        <h2 id="nutrition-title">ПП по <em>Любви</em></h2>
+        <p>Еда, которую любишь. Рацион, с которым удобно жить.</p>
+      </header>
+
+      <div class="nutrition__grid">
+        <article class="nutrition-card">
+          <div class="nutrition-card__art">
+            <img src="assets/img/pp-course-cover.webp" alt="Обложка курса «ПП по Любви» с зелёным сердцем" width="581" height="820" loading="lazy" decoding="async">
+          </div>
+          <div class="nutrition-card__body">
+            <p class="nutrition-card__meta">Курс по питанию · 7 уроков без жёстких диет</p>
+            <h3>Любимые блюда остаются</h3>
+            <p>Разберитесь с КБЖУ и порциями, соберите свой рацион по методу тарелки и попробуйте его на практике. Внутри — задания, пример меню и дневник питания.</p>
+            <button class="btn btn--primary nutrition-card__order" type="button" data-open-modal data-material="Курс «ПП по Любви»">
+              Хочу курс <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </button>
+          </div>
+        </article>
+
+        <article class="nutrition-card nutrition-card--recipes">
+          <div class="nutrition-card__art">
+            <img src="assets/img/pp-recipes-cover.webp" alt="Обложка сборника «ПП по Любви — рецепты» с золотым сердцем" width="581" height="820" loading="lazy" decoding="async">
+          </div>
+          <div class="nutrition-card__body">
+            <p class="nutrition-card__meta">Сборник рецептов · 5 завтраков, 5 обедов, 5 ужинов</p>
+            <h3>Что вкусного сегодня?</h3>
+            <p>Сырники, кесадилья, рыба с гарниром и другие идеи на каждый день. Внутри — завтраки, обеды и ужины из обычных продуктов с граммовками и КБЖУ.</p>
+            <button class="btn btn--primary nutrition-card__order" type="button" data-open-modal data-material="Сборник «ПП по Любви — рецепты»">
+              Хочу рецепты <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </button>
+          </div>
+        </article>
       </div>
     </div>
   </div>
@@ -369,7 +398,7 @@
     </div>
 
     <div class="gym__cta rv" data-reveal>
-      <button class="strip" type="button" data-open-modal data-preset="Пробная тренировка">
+      <button class="strip" type="button" data-open-modal data-trial>
         <span>Хочу на пробную тренировку</span>
         <svg class="ic" aria-hidden="true"><use href="#i-arrow-long"/></svg>
       </button>
@@ -610,91 +639,91 @@
     <div class="faq" data-faq>
       <article class="faq__item rv" data-reveal>
         <h3>
-          <button class="faq__q" type="button" aria-expanded="false">
+          <button class="faq__q" type="button" aria-expanded="false" aria-controls="faq-answer-1">
             <span class="faq__text">Как <b>записаться</b> на первую тренировку?</span>
             <span class="faq__hint" aria-hidden="true">нажмите, чтобы раскрыть</span>
             <span class="faq__sign" aria-hidden="true"><svg class="ic"><use href="#i-plus"/></svg></span>
           </button>
         </h3>
-        <div class="faq__a"><div class="faq__a-inner">
+        <div class="faq__a" id="faq-answer-1" aria-hidden="true" inert><div class="faq__a-inner">
           <p>Нажмите «Записаться» и заполните пару полей — сайт соберёт готовое сообщение, останется отправить его мне в Telegram. Или просто напишите напрямую. На пробной встрече знакомимся, проводим тестирование и честно обсуждаем сроки.</p>
         </div></div>
       </article>
 
       <article class="faq__item rv" data-reveal style="--i:1">
         <h3>
-          <button class="faq__q" type="button" aria-expanded="false">
+          <button class="faq__q" type="button" aria-expanded="false" aria-controls="faq-answer-2">
             <span class="faq__text">Я никогда не занималась — <b>мне точно подойдёт?</b></span>
             <span class="faq__hint" aria-hidden="true">нажмите, чтобы раскрыть</span>
             <span class="faq__sign" aria-hidden="true"><svg class="ic"><use href="#i-plus"/></svg></span>
           </button>
         </h3>
-        <div class="faq__a"><div class="faq__a-inner">
+        <div class="faq__a" id="faq-answer-2" aria-hidden="true" inert><div class="faq__a-inner">
           <p>Да! Больше половины моих клиентов начинали с нуля или после очень долгого перерыва. Первые недели ставим базу на лёгких весах — это фундамент, без которого не бывает красивой формы.</p>
         </div></div>
       </article>
 
       <article class="faq__item rv" data-reveal style="--i:2">
         <h3>
-          <button class="faq__q" type="button" aria-expanded="false">
+          <button class="faq__q" type="button" aria-expanded="false" aria-controls="faq-answer-3">
             <span class="faq__text">Каких <b>результатов я смогу добиться?</b></span>
             <span class="faq__hint" aria-hidden="true">нажмите, чтобы раскрыть</span>
             <span class="faq__sign" aria-hidden="true"><svg class="ic"><use href="#i-plus"/></svg></span>
           </button>
         </h3>
-        <div class="faq__a"><div class="faq__a-inner">
+        <div class="faq__a" id="faq-answer-3" aria-hidden="true" inert><div class="faq__a-inner">
           <p>Результат у каждого свой: он зависит от исходной формы, регулярности тренировок, питания, сна и здоровья. На первой встрече мы ставим реалистичную цель и срок, а дальше каждые 4 недели проверяем прогресс и корректируем план. Обещать конкретные килограммы я не буду — это было бы нечестно.</p>
         </div></div>
       </article>
 
       <article class="faq__item rv" data-reveal style="--i:3">
         <h3>
-          <button class="faq__q" type="button" aria-expanded="false">
+          <button class="faq__q" type="button" aria-expanded="false" aria-controls="faq-answer-4">
             <span class="faq__text">Где <b>проходят тренировки?</b></span>
             <span class="faq__hint" aria-hidden="true">нажмите, чтобы раскрыть</span>
             <span class="faq__sign" aria-hidden="true"><svg class="ic"><use href="#i-plus"/></svg></span>
           </button>
         </h3>
-        <div class="faq__a"><div class="faq__a-inner">
+        <div class="faq__a" id="faq-answer-4" aria-hidden="true" inert><div class="faq__a-inner">
           <p>Персональные и сплиты — в проверенном зале в Нижнекамске, адрес пришлю в Telegram. Онлайн — из любого города по видеозвонку: разбираем технику, корректируем план и остаёмся на связи.</p>
         </div></div>
       </article>
 
       <article class="faq__item rv" data-reveal style="--i:4">
         <h3>
-          <button class="faq__q" type="button" aria-expanded="false">
+          <button class="faq__q" type="button" aria-expanded="false" aria-controls="faq-answer-5">
             <span class="faq__text">Сколько раз <b>в неделю заниматься?</b></span>
             <span class="faq__hint" aria-hidden="true">нажмите, чтобы раскрыть</span>
             <span class="faq__sign" aria-hidden="true"><svg class="ic"><use href="#i-plus"/></svg></span>
           </button>
         </h3>
-        <div class="faq__a"><div class="faq__a-inner">
+        <div class="faq__a" id="faq-answer-5" aria-hidden="true" inert><div class="faq__a-inner">
           <p>2–3 раза в неделю — идеальный баланс между прогрессом и восстановлением. Есть ресурс на большее — добавим, но без фанатизма.</p>
         </div></div>
       </article>
 
       <article class="faq__item rv" data-reveal style="--i:5">
         <h3>
-          <button class="faq__q" type="button" aria-expanded="false">
+          <button class="faq__q" type="button" aria-expanded="false" aria-controls="faq-answer-6">
             <span class="faq__text">У меня <b>есть проблемы со здоровьем</b> — можно?</span>
             <span class="faq__hint" aria-hidden="true">нажмите, чтобы раскрыть</span>
             <span class="faq__sign" aria-hidden="true"><svg class="ic"><use href="#i-plus"/></svg></span>
           </button>
         </h3>
-        <div class="faq__a"><div class="faq__a-inner">
+        <div class="faq__a" id="faq-answer-6" aria-hidden="true" inert><div class="faq__a-inner">
           <p>Я фитнес-тренер, а не врач: не ставлю диагнозов и не лечу. Если у вас есть хронические заболевания, травмы, беременность или вы восстанавливаетесь после операции — сначала получите разрешение врача на занятия. О самочувствии рассказывайте мне перед каждой тренировкой, а при боли, головокружении или недомогании занятие сразу останавливаем.</p>
         </div></div>
       </article>
 
       <article class="faq__item rv" data-reveal style="--i:6">
         <h3>
-          <button class="faq__q" type="button" aria-expanded="false">
+          <button class="faq__q" type="button" aria-expanded="false" aria-controls="faq-answer-7">
             <span class="faq__text">Что <b>взять с собой?</b></span>
             <span class="faq__hint" aria-hidden="true">нажмите, чтобы раскрыть</span>
             <span class="faq__sign" aria-hidden="true"><svg class="ic"><use href="#i-plus"/></svg></span>
           </button>
         </h3>
-        <div class="faq__a"><div class="faq__a-inner">
+        <div class="faq__a" id="faq-answer-7" aria-hidden="true" inert><div class="faq__a-inner">
           <p>Удобную форму, кроссовки, воду и боевой настрой. Инвентарь — моя забота. Для домашних тренировок составлю план под то, что есть под рукой.</p>
         </div></div>
       </article>
@@ -740,17 +769,6 @@
       <p>Информация на сайте носит справочный характер и не является публичной офертой (ст. 437 ГК РФ). Стоимость и условия занятий согласуются лично. Результаты тренировок индивидуальны и не гарантируются: они зависят от состояния здоровья, регулярности занятий, питания и образа жизни. Отзывы отражают личный опыт их авторов.</p>
       <p>Тренировки и рекомендации по питанию не являются медицинской услугой. Перед началом занятий проконсультируйтесь с врачом. 16+</p>
       <p>* Instagram принадлежит компании Meta Platforms Inc., деятельность которой признана экстремистской и запрещена на территории Российской Федерации.</p>
-<<<<<<< HEAD
-=======
-    </div>
-    <div class="shell footer__inner">
-      <span>© <span data-year>2026</span> Дарья · Нижнекамск · самозанятая (НПД), ИНН <span class="ph">[ИНН]</span></span>
-      <nav class="footer__docs" aria-label="Документы">
-        <a href="privacy.html">Политика конфиденциальности</a>
-        <a href="consent.html">Согласие на обработку данных</a>
-        <a href="terms.html">Пользовательское соглашение</a>
-      </nav>
->>>>>>> 545a56d7216de54fe016dfbfce32b6a32074428b
     </div>
   </footer>
 </section>
@@ -763,7 +781,7 @@
     <b>Пробная тренировка</b>
     <i>Подберём формат под вас</i>
   </div>
-  <button class="btn btn--primary btn--sm" type="button" data-open-modal>
+  <button class="btn btn--primary btn--sm" type="button" data-open-modal data-trial>
     <span>Записаться</span>
   </button>
 </div>
@@ -777,11 +795,35 @@
     </button>
 
     <div class="modal__step" data-step="form">
-      <h2 class="modal__title display" id="modal-title">Запись на&nbsp;тренировку</h2>
-      <p class="modal__sub">Заполните форму — сайт соберёт готовое сообщение. Останется в один клик отправить его мне в Telegram.</p>
+      <h2 class="modal__title display" id="modal-title" tabindex="-1">Запись на тренировку</h2>
+      <p class="modal__sub">Заполните форму, чтобы подготовить сообщение. Затем откройте Telegram и отправьте его мне.</p>
 
       <form class="form" data-form novalidate>
-        <fieldset class="field">
+        <fieldset class="field" data-material-field hidden>
+          <legend id="material-label">Хочу заказать</legend>
+          <details class="form-picker" id="material-picker">
+            <summary aria-labelledby="material-label material-current">
+              <span id="material-current">Курс «ПП по Любви»</span>
+              <svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg>
+            </summary>
+            <div class="form-picker__options">
+              <label>
+                <input type="radio" name="material" value="Курс «ПП по Любви»" checked>
+                <span>Курс «ПП по Любви»<svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>
+              </label>
+              <label>
+                <input type="radio" name="material" value="Сборник «ПП по Любви — рецепты»">
+                <span>«ПП по Любви» — рецепты<svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>
+              </label>
+              <label>
+                <input type="radio" name="material" value="Курс «ПП по Любви» и сборник рецептов">
+                <span>Оба сразу<svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>
+              </label>
+            </div>
+          </details>
+        </fieldset>
+
+        <fieldset class="field" data-training-field>
           <legend>Формат</legend>
           <div class="chips">
             <label class="chip"><input type="radio" name="format" value="Персональная тренировка" checked><span>Персональная</span></label>
@@ -795,43 +837,52 @@
         <div class="field">
           <label for="f-name">Как вас зовут</label>
           <input id="f-name" name="name" type="text" maxlength="60" autocomplete="name" placeholder="Например, Регина" required>
-          <p class="field__error" data-error-for="name" hidden>Напишите имя — хотя бы одно слово.</p>
+          <p class="field__error" id="f-name-error" data-error-for="name" hidden>Напишите имя — хотя бы одно слово.</p>
         </div>
 
         <div class="field">
           <label for="f-contact">Телефон или ник в Telegram</label>
           <input id="f-contact" name="contact" type="text" maxlength="80" autocomplete="tel" placeholder="+7 917 … или @nickname" required>
-          <p class="field__error" data-error-for="contact" hidden>Оставьте телефон или ник — иначе не смогу ответить.</p>
+          <p class="field__error" id="f-contact-error" data-error-for="contact" hidden>Введите номер телефона или ник Telegram, начиная с @.</p>
         </div>
 
-        <div class="field">
-          <label for="f-when">Когда удобно тренироваться</label>
-          <select id="f-when" name="when">
-            <option>Утро, 07:00–10:00</option>
-            <option>День, 10:00–16:00</option>
-            <option>Вечер, 16:00–21:00</option>
-            <option>Пока не знаю — подскажите окна</option>
-          </select>
-        </div>
+        <fieldset class="field" data-training-field>
+          <legend id="when-label">Когда удобно тренироваться</legend>
+          <details class="form-picker" id="time-picker">
+            <summary aria-labelledby="when-label when-current">
+              <span id="when-current">Уточню в переписке</span>
+              <svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg>
+            </summary>
+            <div class="form-picker__options">
+              <label>
+                <input type="radio" name="when" value="Уточню в переписке" checked>
+                <span>Уточню в переписке<svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>
+              </label>
+              <label>
+                <input type="radio" name="when" value="Утро, 07:00–10:00">
+                <span>Утро, 07:00–10:00<svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>
+              </label>
+              <label>
+                <input type="radio" name="when" value="День, 10:00–16:00">
+                <span>День, 10:00–16:00<svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>
+              </label>
+              <label>
+                <input type="radio" name="when" value="Вечер, 16:00–21:00">
+                <span>Вечер, 16:00–21:00<svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>
+              </label>
+            </div>
+          </details>
+        </fieldset>
 
-        <div class="field">
+        <div class="field" data-training-field>
           <label for="f-goal">Цель <span class="field__opt">необязательно</span></label>
           <textarea id="f-goal" name="goal" rows="3" maxlength="600" placeholder="Похудеть к лету, подтянуть тело, стать выносливее" aria-describedby="f-goal-hint"></textarea>
           <p class="field__hint" id="f-goal-hint">Не указывайте здесь сведения о здоровье — обсудим их лично на первой встрече.</p>
         </div>
 
-        <div class="field field--check">
-          <label class="check">
-            <input id="f-consent" name="consent" type="checkbox" required>
-            <span>Я даю <a href="consent.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a></span>
-          </label>
-          <p class="field__hint">Как обрабатываются данные — в <a href="privacy.html" target="_blank" rel="noopener">политике конфиденциальности</a>.</p>
-          <p class="field__error" data-error-for="consent" hidden>Без согласия я не смогу обработать заявку.</p>
-        </div>
-        <button class="btn btn--primary btn--wide btn--lg" type="submit" data-submit>
-          <span data-submit-label>Собрать заявку</span>
+        <button class="btn btn--primary btn--wide btn--lg" type="submit">
+          <span>Собрать заявку</span>
           <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg>
-          <span class="btn__spinner" aria-hidden="true"></span>
         </button>
         <p class="form__note">Сайт не хранит и не пересылает ваши данные: заявка собирается в браузере, и вы сами отправляете её мне в мессенджер.</p>
       </form>
@@ -839,9 +890,8 @@
 
     <div class="modal__step" data-step="done" hidden>
       <span class="done__badge" aria-hidden="true"><svg class="ic"><use href="#i-check"/></svg></span>
-      <h2 class="modal__title display">Заявка готова</h2>
-      <p class="modal__sub">Текст скопирован в буфер обмена. Откройте Telegram — останется вставить его в чат и отправить.</p>
-      <pre class="done__preview" data-preview></pre>
+      <h2 class="modal__title display" id="modal-done-title">Заявка готова</h2>
+      <p class="modal__sub">Откройте Telegram и отправьте подготовленное сообщение. Текст также можно скопировать вручную.</p>
       <div class="done__actions">
         <a class="btn btn--primary btn--lg" href="https://t.me/iamddasha1" target="_blank" rel="noopener noreferrer" data-tg-open>
           <svg class="ic" aria-hidden="true"><use href="#i-tg"/></svg>
@@ -849,9 +899,11 @@
         </a>
         <button class="btn btn--outline btn--lg" type="button" data-copy>
           <svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg>
-          <span data-copy-label>Скопировать ещё раз</span>
+          <span data-copy-label>Скопировать текст</span>
         </button>
       </div>
+      <pre class="done__preview" data-preview></pre>
+      <button class="linkbtn" type="button" data-edit-draft>Изменить заявку</button>
       <button class="linkbtn" type="button" data-modal-close>Вернуться на сайт</button>
     </div>
   </div>
@@ -861,10 +913,6 @@
   <svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg>
 </button>
 
-<<<<<<< HEAD
-<script src="assets/js/app.js?v=5" defer></script>
-=======
-<script src="assets/js/app.js?v=4" defer></script>
->>>>>>> 545a56d7216de54fe016dfbfce32b6a32074428b
+<script src="assets/js/app.js?v=10" defer></script>
 </body>
 </html>

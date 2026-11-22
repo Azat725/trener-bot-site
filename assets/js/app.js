@@ -238,6 +238,7 @@
     var nav = $('[data-nav]');
     var burger = $('[data-burger]');
     var panel = $('[data-nav-panel]');
+    var modal = $('[data-modal]');
     if (!nav) return;
 
     onScroll(function (y) {
@@ -261,7 +262,11 @@
 
     on(burger, 'click', function () { setMenu(!open); });
     $$('a', panel).forEach(function (a) { on(a, 'click', function () { setMenu(false); }); });
-    on(document, 'keydown', function (e) { if (e.key === 'Escape' && open) setMenu(false); });
+    on(document, 'keydown', function (e) {
+      if (e.key !== 'Escape' || !open || (modal && !modal.hidden)) return;
+      setMenu(false);
+      burger.focus();
+    });
     on(window, 'resize', function () {
       if (open && window.innerWidth >= 1024) setMenu(false);
     }, { passive: true });
@@ -284,11 +289,12 @@
     if (!root) return;
 
     var track = $('[data-rev-track]', root);
+    if (!track) return;
     var dotsBox = $('[data-rev-dots]', root);
     var prev = $('[data-rev-prev]');
     var next = $('[data-rev-next]');
     var cards = $$('.review', track);
-    if (!track || !cards.length) return;
+    if (!cards.length) return;
 
     /* dots */
     var dots = [];
@@ -296,40 +302,43 @@
       cards.forEach(function (card, i) {
         var b = document.createElement('button');
         b.type = 'button';
-        b.setAttribute('aria-label', 'Отзыв ' + (i + 1) + ' из ' + cards.length);
+        b.setAttribute('aria-label', i ? 'Отзыв ' + i + ' из ' + (cards.length - 1) : 'Введение к отзывам');
         on(b, 'click', function () { scrollToCard(i); });
         dotsBox.appendChild(b);
         dots.push(b);
       });
     }
 
+    function cardPosition(card) {
+      return card.offsetLeft - cards[0].offsetLeft;
+    }
+
     function activeIndex() {
-      var mid = track.scrollLeft + track.clientWidth / 2;
       var best = 0, bestDist = Infinity;
       cards.forEach(function (card, i) {
-        var c = card.offsetLeft + card.offsetWidth / 2;
-        var d = Math.abs(c - mid);
+        var d = Math.abs(cardPosition(card) - track.scrollLeft);
         if (d < bestDist) { bestDist = d; best = i; }
       });
       return best;
     }
 
-    function scrollToCard(i) {
+    function scrollToCard(i, behavior) {
       var card = cards[clamped(i, 0, cards.length - 1)];
       track.scrollTo({
-        left: card.offsetLeft - (track.clientWidth - card.offsetWidth) / 2,
-        behavior: reduced.matches ? 'auto' : 'smooth'
+        left: cardPosition(card),
+        behavior: behavior || (reduced.matches ? 'auto' : 'smooth')
       });
     }
 
+    var current = 0;
     function sync() {
-      var i = activeIndex();
+      current = activeIndex();
       dots.forEach(function (d, di) {
-        d.classList.toggle('is-active', di === i);
-        if (di === i) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current');
+        d.classList.toggle('is-active', di === current);
+        if (di === current) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current');
       });
-      if (prev) prev.disabled = track.scrollLeft <= 4;
-      if (next) next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4;
+      if (prev) prev.setAttribute('aria-disabled', String(current === 0));
+      if (next) next.setAttribute('aria-disabled', String(current === cards.length - 1));
     }
 
     var syncTimer = null;
@@ -338,8 +347,10 @@
       syncTimer = window.setTimeout(sync, 60);
     }, { passive: true });
 
-    on(prev, 'click', function () { scrollToCard(activeIndex() - 1); });
-    on(next, 'click', function () { scrollToCard(activeIndex() + 1); });
+    on(window, 'resize', function () { scrollToCard(current, 'instant'); sync(); }, { passive: true });
+
+    on(prev, 'click', function () { if (current > 0) scrollToCard(current - 1); });
+    on(next, 'click', function () { if (current < cards.length - 1) scrollToCard(current + 1); });
 
     on(track, 'keydown', function (e) {
       if (e.key === 'ArrowRight') { e.preventDefault(); scrollToCard(activeIndex() + 1); }
@@ -349,20 +360,23 @@
     /* drag to pan (mouse only — touch already scrolls natively) */
     var down = false, startX = 0, startScroll = 0, moved = false;
     on(track, 'pointerdown', function (e) {
-      if (e.pointerType !== 'mouse') return;
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
       down = true; moved = false;
       startX = e.clientX;
       startScroll = track.scrollLeft;
-      track.classList.add('is-dragging');
     });
     on(window, 'pointermove', function (e) {
       if (!down) return;
       var dx = e.clientX - startX;
-      if (Math.abs(dx) > 4) moved = true;
+      if (!moved && Math.abs(dx) <= 4) return;
+      if (!moved) {
+        moved = true;
+        track.classList.add('is-dragging');
+      }
       track.scrollLeft = startScroll - dx;
       e.preventDefault();
     });
-    on(window, 'pointerup', function () {
+    function endDrag() {
       if (!down) return;
       down = false;
       track.classList.remove('is-dragging');
@@ -370,7 +384,9 @@
         scrollToCard(activeIndex());
         window.setTimeout(function () { moved = false; }, 0);
       }
-    });
+    }
+    on(window, 'pointerup', endDrag);
+    on(window, 'pointercancel', endDrag);
     /* swallow only the click that ends a drag, then let clicks through again */
     on(track, 'click', function (e) {
       if (!moved) return;
@@ -387,10 +403,13 @@
   function initFaq() {
     $$('[data-faq] .faq__item').forEach(function (item) {
       var btn = $('.faq__q', item);
+      var answer = $('.faq__a', item);
       if (!btn) return;
       on(btn, 'click', function () {
         var open = item.classList.toggle('is-open');
         btn.setAttribute('aria-expanded', String(open));
+        answer.toggleAttribute('inert', !open);
+        answer.setAttribute('aria-hidden', String(!open));
       });
     });
   }
@@ -404,60 +423,125 @@
     var stepForm = $('[data-step="form"]', modal);
     var stepDone = $('[data-step="done"]', modal);
     var form = $('[data-form]', modal);
-    var submit = $('[data-submit]', modal);
-    var submitLabel = $('[data-submit-label]', modal);
+    var title = $('#modal-title', modal);
+    var material = form.elements.namedItem('material');
+    var materialField = $('[data-material-field]', form);
+    var materialPicker = $('#material-picker', form);
+    var pickers = $$('.form-picker', form);
+    var trainingFields = $$('[data-training-field]', form);
     var preview = $('[data-preview]', modal);
     var tgOpen = $('[data-tg-open]', modal);
     var copyBtn = $('[data-copy]', modal);
     var copyLabel = $('[data-copy-label]', modal);
     var lastFocus = null;
     var lastMessage = '';
+    var isTrial = false;
+    var closeTimer;
 
     /* --- open / close --- */
     function showFormStep() {
-      if (stepDone.hidden) return;
-      form.reset();
-      $$('#f-name, #f-contact, #f-consent', modal).forEach(function (input) { setError(input, false); });
+      copyLabel.textContent = 'Скопировать текст';
+      box.setAttribute('aria-labelledby', 'modal-title');
       stepDone.hidden = true;
       stepForm.hidden = false;
     }
 
-    function openModal(preset) {
-      lastFocus = document.activeElement;
-      showFormStep();
-      modal.hidden = false;
-      document.body.classList.add('is-locked');
-      window.requestAnimationFrame(function () { modal.classList.add('is-open'); });
-
-      if (preset) {
-        var goal = $('#f-goal', modal);
-        if (goal && !goal.value) goal.value = preset;
+    function openModal(trigger) {
+      window.clearTimeout(closeTimer);
+      lastFocus = trigger;
+      if (!stepDone.hidden) {
+        form.reset();
+        pickers.forEach(updatePickerLabel);
+        $$('#f-name, #f-contact', modal).forEach(function (input) { setError(input, false); });
+        showFormStep();
       }
-      window.setTimeout(function () {
-        var first = $('#f-name', modal);
-        if (first) first.focus();
-      }, 90);
+
+      var selectedMaterial = trigger.getAttribute('data-material');
+      var isMaterialOrder = Boolean(selectedMaterial);
+      isTrial = trigger.hasAttribute('data-trial');
+      if (isMaterialOrder) {
+        material.value = selectedMaterial;
+        updatePickerLabel(materialPicker);
+      }
+      title.textContent = isMaterialOrder ? 'Заказать материал' : 'Запись на тренировку';
+      if (isTrial) title.textContent = 'Запись на пробную тренировку';
+      materialField.hidden = !isMaterialOrder;
+      trainingFields.forEach(function (field) { field.hidden = isMaterialOrder; });
+
+      modal.hidden = false;
+      box.scrollTop = 0;
+      document.body.classList.add('is-locked');
+
+      window.requestAnimationFrame(function () {
+        modal.classList.add('is-open');
+        $('[data-modal-close]', box).focus({ preventScroll: true });
+      });
     }
 
     function closeModal() {
+      pickers.forEach(function (picker) { picker.open = false; });
       modal.classList.remove('is-open');
-      document.body.classList.remove('is-locked');
-      window.setTimeout(function () {
+      window.clearTimeout(closeTimer);
+      closeTimer = window.setTimeout(function () {
         modal.hidden = true;
-        if (lastFocus && lastFocus.focus) lastFocus.focus();
-      }, 320);
+        document.body.classList.remove('is-locked');
+        if (lastFocus && lastFocus.offsetParent !== null) lastFocus.focus();
+        else if (lastFocus && lastFocus.closest('[data-nav-panel]')) $('[data-burger]').focus();
+      }, reduced.matches ? 0 : 320);
     }
 
     $$('[data-open-modal]').forEach(function (btn) {
-      on(btn, 'click', function () { openModal(btn.getAttribute('data-preset')); });
+      on(btn, 'click', function () { openModal(btn); });
     });
     $$('[data-modal-close]').forEach(function (btn) { on(btn, 'click', closeModal); });
+    on($('[data-edit-draft]', modal), 'click', function () {
+      showFormStep();
+      box.scrollTop = 0;
+      title.focus({ preventScroll: true });
+    });
+
+    function updatePickerLabel(picker) {
+      $('summary span', picker).textContent = $('input:checked', picker).nextElementSibling.textContent;
+    }
+
+    function closePicker(picker) {
+      picker.open = false;
+      $('summary', picker).focus({ preventScroll: true });
+    }
+
+    pickers.forEach(function (picker) {
+      on(picker, 'toggle', function () {
+        if (picker.open) $('.form-picker__options', picker).scrollIntoView({ block: 'nearest' });
+      });
+      on(picker, 'change', function () { updatePickerLabel(picker); });
+      on(picker, 'click', function (e) {
+        if (e.target.type === 'radio' && e.detail > 0) closePicker(picker);
+      });
+      on(picker, 'keydown', function (e) {
+        if (e.target.type !== 'radio' || (e.key !== 'Enter' && e.key !== ' ')) return;
+        e.preventDefault();
+        e.target.checked = true;
+        updatePickerLabel(picker);
+        closePicker(picker);
+      });
+      on(picker, 'focusout', function (e) {
+        if (e.relatedTarget && !picker.contains(e.relatedTarget)) picker.open = false;
+      });
+      on(box, 'click', function (e) {
+        if (!picker.contains(e.target)) picker.open = false;
+      });
+    });
 
     on(document, 'keydown', function (e) {
       if (modal.hidden) return;
-      if (e.key === 'Escape') { closeModal(); return; }
+      if (e.key === 'Escape') {
+        var openPicker = $('.form-picker[open]', form);
+        if (openPicker) closePicker(openPicker);
+        else closeModal();
+        return;
+      }
       if (e.key !== 'Tab') return;
-      var focusables = $$('a[href], button:not([disabled]), input, select, textarea', box)
+      var focusables = $$('a[href], button:not([disabled]), input, summary, textarea', box)
         .filter(function (el) { return el.offsetParent !== null; });
       if (!focusables.length) return;
       var first = focusables[0];
@@ -474,56 +558,51 @@
       if (!field) return;
       field.classList.toggle('has-error', on_);
       var msg = $('[data-error-for="' + input.name + '"]', field);
-      if (msg) msg.hidden = !on_;
+      if (msg) {
+        msg.hidden = !on_;
+        if (on_) input.setAttribute('aria-describedby', msg.id);
+        else input.removeAttribute('aria-describedby');
+      }
       input.setAttribute('aria-invalid', String(on_));
     }
 
-    function validate() {
-      var name = $('#f-name', modal);
-      var contact = $('#f-contact', modal);
-      var bad = [];
-
-      var nameOk = name.value.trim().length >= 2;
-      setError(name, !nameOk);
-      if (!nameOk) bad.push(name);
-
-      var contactOk = contact.value.trim().length >= 5;
-      setError(contact, !contactOk);
-      if (!contactOk) bad.push(contact);
-
-      var consent = $('#f-consent', modal);
-      if (consent) {
-        setError(consent, !consent.checked);
-        if (!consent.checked) bad.push(consent);
-      }
-
-      return bad;
+    function isValid(input) {
+      var value = input.value.trim();
+      if (input.name === 'name') return value.length >= 2;
+      if (/^@[a-z0-9_]{4,32}$/i.test(value)) return true;
+      var digits = value.replace(/\D/g, '');
+      return /^\+?[\d\s().-]+$/.test(value) && /^\d{7,15}$/.test(digits) && /[1-9]/.test(digits);
     }
 
-    on($('#f-consent', modal), 'change', function (e) {
-      if (e.target.checked) setError(e.target, false);
-    });
+    function validate() {
+      return $$('#f-name, #f-contact', modal).filter(function (input) {
+        var invalid = !isValid(input);
+        setError(input, invalid);
+        return invalid;
+      });
+    }
 
     $$('#f-name, #f-contact', modal).forEach(function (input) {
       on(input, 'input', function () { if (fieldOf(input).classList.contains('has-error')) setError(input, false); });
       on(input, 'blur', function () {
-        var v = input.value.trim();
-        if (!v) return;
-        if (input.name === 'name') setError(input, v.length < 2);
-        if (input.name === 'contact') setError(input, v.length < 5);
+        if (input.value.trim()) setError(input, !isValid(input));
       });
     });
 
     /* --- message --- */
     function buildMessage() {
-      var format = ($('input[name="format"]:checked', modal) || {}).value || 'Персональная тренировка';
       var name = $('#f-name', modal).value.trim();
       var contact = $('#f-contact', modal).value.trim();
-      var when = $('#f-when', modal).value;
+      if (!materialField.hidden) {
+        return ['Хочу заказать: ' + material.value, '', 'Имя: ' + name, 'Связь: ' + contact].join('\n');
+      }
+
+      var format = ($('input[name="format"]:checked', modal) || {}).value || 'Персональная тренировка';
+      var when = form.elements.namedItem('when').value;
       var goal = $('#f-goal', modal).value.trim();
 
       var lines = [
-        'Заявка на тренировку',
+        isTrial ? 'Заявка на пробную тренировку' : 'Заявка на тренировку',
         '',
         'Формат: ' + format,
         'Имя: ' + name,
@@ -540,40 +619,23 @@
       var bad = validate();
       if (bad.length) {
         bad[0].focus();
-        box.scrollTo({ top: 0, behavior: reduced.matches ? 'auto' : 'smooth' });
         return;
       }
 
-      submit.classList.add('is-loading');
-      submit.disabled = true;
-      submitLabel.textContent = 'Собираю…';
-
-      window.setTimeout(function () {
-        lastMessage = buildMessage();
-
-        copyText(lastMessage).catch(function () { /* clipboard may be blocked — user can copy manually */ });
-
-        if (preview) preview.textContent = lastMessage;
-        if (tgOpen) {
-          tgOpen.href = 'https://t.me/' + CONFIG.telegram + '?text=' + encodeURIComponent(lastMessage);
-        }
-
-        stepForm.hidden = true;
-        stepDone.hidden = false;
-
-        submit.classList.remove('is-loading');
-        submit.disabled = false;
-        submitLabel.textContent = 'Собрать заявку';
-
-        if (tgOpen) tgOpen.focus();
-        box.scrollTo({ top: 0, behavior: reduced.matches ? 'auto' : 'smooth' });
-      }, 700);
+      lastMessage = buildMessage();
+      preview.textContent = lastMessage;
+      tgOpen.href = 'https://t.me/' + CONFIG.telegram + '?text=' + encodeURIComponent(lastMessage);
+      stepForm.hidden = true;
+      stepDone.hidden = false;
+      box.setAttribute('aria-labelledby', 'modal-done-title');
+      box.scrollTop = 0;
+      tgOpen.focus();
     });
 
     on(copyBtn, 'click', function () {
       copyText(lastMessage).then(function () {
         copyLabel.textContent = 'Скопировано';
-        window.setTimeout(function () { copyLabel.textContent = 'Скопировать ещё раз'; }, 1800);
+        window.setTimeout(function () { copyLabel.textContent = 'Скопировать текст'; }, 1800);
       }).catch(function () {
         copyLabel.textContent = 'Выделите текст вручную';
         if (preview && window.getSelection) {
@@ -592,6 +654,7 @@
     var bar = $('[data-stickybar]');
     var top = $('[data-totop]');
     var hero = $('#hero');
+    var nutrition = $('#nutrition');
 
     /* keep the back-to-top button clear of the sticky bar, whatever its height */
     function measureBar() {
@@ -607,16 +670,17 @@
 
     function paint(y) {
       var heroBottom = hero ? hero.offsetTop + hero.offsetHeight - 260 : CONFIG.breakpoints.stickyBar;
+      var section = nutrition && nutrition.getBoundingClientRect();
+      var middle = window.innerHeight / 2;
+      var browsingNutrition = section && section.top < middle && section.bottom > middle;
 
       if (bar) {
-        var showBar = y > heroBottom;
-        if (showBar && bar.hidden) { bar.hidden = false; measureBar(); }
-        if (!showBar && !bar.hidden) bar.hidden = true;
+        var showBar = y > heroBottom && !browsingNutrition;
+        if (bar.hidden === showBar) { bar.hidden = !showBar; measureBar(); }
         bar.classList.toggle('is-shown', showBar);
       }
       if (top) {
-        // never let the back-to-top button appear before the sticky bar it sits above
-        var showTop = y > Math.max(CONFIG.breakpoints.backToTop, heroBottom);
+        var showTop = y > Math.max(CONFIG.breakpoints.backToTop, heroBottom) && !browsingNutrition;
         if (showTop && top.hidden) top.hidden = false;
         if (!showTop && !top.hidden) top.hidden = true;
         top.classList.toggle('is-shown', showTop);
@@ -627,26 +691,6 @@
 
     on(top, 'click', function () {
       window.scrollTo({ top: 0, behavior: reduced.matches ? 'auto' : 'smooth' });
-    });
-  }
-
-  /* --------------------------------------------------------------- MISC */
-  function initMisc() {
-    var year = $('[data-year]');
-    if (year) year.textContent = String(new Date().getFullYear());
-
-    /* smooth anchor scrolling with the fixed header offset (fallback path) */
-    $$('a[href^="#"]').forEach(function (a) {
-      on(a, 'click', function (e) {
-        var id = a.getAttribute('href');
-        if (!id || id === '#') return;
-        var target = document.getElementById(id.slice(1));
-        if (!target) return;
-        e.preventDefault();
-        var top = target.getBoundingClientRect().top + window.scrollY - 84;
-        window.scrollTo({ top: top, behavior: reduced.matches ? 'auto' : 'smooth' });
-        if (history.replaceState) history.replaceState(null, '', id);
-      });
     });
   }
 
@@ -663,7 +707,6 @@
     initFaq();
     initModal();
     initFloaters();
-    initMisc();
     document.documentElement.classList.add('is-ready');
   }
 
