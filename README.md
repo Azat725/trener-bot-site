@@ -1,6 +1,6 @@
 # Дарья — персональный фитнес-тренер (Нижнекамск)
 
-Статический сайт-визитка на GitHub Pages: https://manath-iq.github.io/trener-bot-site/
+Статический сайт-визитка на GitHub Pages: https://azat725.github.io/trener-bot-site/
 
 ## Структура
 
