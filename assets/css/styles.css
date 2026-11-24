@@ -556,7 +556,7 @@ i, em { font-style: normal; }
 
 .hero__media {
   position: relative; z-index: 2;
-  margin-top: -18px;
+  margin-top: 12px;
   height: clamp(440px, 128vw, 560px);
 }
 .cutout { position: absolute; inset: 0; margin: 0; }
