@@ -298,6 +298,7 @@ i, em { font-style: normal; }
 }
 .lead b { color: var(--ink); }
 .lead--center { margin: 18px auto 0; text-align: center; }
+.text-link { color: var(--blue); font-weight: 700; text-decoration: underline; text-underline-offset: .2em; }
 
 .glass {
   background: linear-gradient(180deg, var(--glass-1), var(--glass-2));
@@ -429,8 +430,6 @@ i, em { font-style: normal; }
   transition-delay: calc(var(--i, 0) * 80ms);
 }
 .rv.is-in { opacity: 1; transform: none; }
-.label.rv { transform: translateY(22px) rotate(-2.5deg); }
-.label.rv.is-in { transform: rotate(-2.5deg); }
 
 /* --------------------------------------------------------------- 5. NAV */
 .nav {
@@ -564,11 +563,8 @@ i, em { font-style: normal; }
   width: 100%; height: 100%;
   object-fit: contain;
   object-position: 50% 0;
-  opacity: 0;
-  transition: opacity .9s var(--ease-out);
   filter: drop-shadow(0 30px 40px rgba(14,22,48,.18));
 }
-.cutout.is-ready .cutout__img { opacity: 1; }
 .cutout--hero { left: 8%; right: -6%; }
 
 .hero__bolt {
@@ -1379,6 +1375,40 @@ i, em { font-style: normal; }
   font-size: 14px; font-weight: 700;
   color: var(--muted);
   text-decoration: underline; text-underline-offset: 3px;
+}
+
+/* ---------------------------------------------------------------- ONLINE */
+.online-page { padding-block: calc(96px + env(safe-area-inset-top)) 64px; }
+.online-hero {
+  display: grid;
+  gap: 28px;
+  align-items: center;
+  background: linear-gradient(145deg, var(--blue-soft), var(--surface-2) 65%);
+}
+.online-hero .display { font-size: clamp(25px, 5.2vw, 68px); line-height: 1; }
+.online-hero .lead { margin-top: 18px; }
+.online-hero .btn { margin-top: 24px; }
+.online-hero__photo {
+  width: min(100%, 240px);
+  height: auto;
+  border-radius: var(--r-lg);
+  justify-self: center;
+}
+.online-section { margin-top: clamp(36px, 7vw, 72px); }
+.online-section h2 { font-size: clamp(24px, 3.3vw, 38px); line-height: 1.15; }
+.online-grid { display: grid; gap: 14px; margin-top: 18px; }
+.online-card { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.online-card h3 { line-height: 1.2; }
+.online-card__price { color: var(--ink-2); }
+.online-card__price strong { color: var(--blue); }
+.online-card .btn { margin-top: auto; }
+.online-answers p { margin-top: 12px; max-width: 680px; }
+
+@media (min-width: 768px) {
+  .online-hero { grid-template-columns: minmax(0, 1fr) minmax(180px, .47fr); }
+  .online-hero .display { font-size: clamp(26px, 4.4vw, 64px); }
+  .online-hero__photo { width: min(100%, 296px); }
+  .online-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 /* ------------------------------------------------------------ 13. RESPONSIVE */

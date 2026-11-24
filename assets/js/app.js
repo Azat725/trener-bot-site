@@ -131,25 +131,7 @@
   }
 
   /* -------------------------------------------------------- MEDIA SLOTS */
-  /* Every image is a slot: if the file is missing we keep the designed
-     placeholder instead of showing a broken icon. Drop the real PNG into
-     assets/img/ and it appears on the next load. */
   function initMediaSlots() {
-    $$('[data-cutout] img').forEach(function (img) {
-      var host = img.closest('[data-cutout]');
-      var ready = function () {
-        host.classList.add('is-ready');
-        host.classList.remove('is-missing');
-      };
-      var failed = function () { host.classList.add('is-missing'); };
-      if (img.complete) {
-        if (img.naturalWidth > 0) ready(); else failed();
-      } else {
-        on(img, 'load', ready, { once: true });
-        on(img, 'error', failed, { once: true });
-      }
-    });
-
     $$('[data-avatar]').forEach(function (img) {
       var host = img.closest('.contact__ava');
       var ready = function () { host.classList.add('is-ready'); };
