@@ -878,16 +878,6 @@ i, em { font-style: normal; }
 
 /* ------------------------------------------------------------- 8b. IN THE GYM */
 .gymhead { text-align: center; }
-.gymhead__pre {
-  position: relative; z-index: 1;
-  display: inline-block;
-  margin-bottom: -.18em;
-  font-size: clamp(30px, 7vw, 52px);
-  color: var(--ink);
-  transform: rotate(-4deg);
-}
-.gymhead__pre.rv { transform: translateY(22px) rotate(-4deg); }
-.gymhead__pre.rv.is-in { transform: rotate(-4deg); }
 
 /* bento of real photos: tall frames span two rows, the rest fill in */
 .gym {
@@ -1034,15 +1024,6 @@ i, em { font-style: normal; }
 .review__who time { font-size: 13px; color: rgba(255,255,255,.72); font-variant-numeric: tabular-nums; }
 .stars { display: flex; gap: 2px; margin-top: auto; color: #FFD24A; }
 .stars .ic { width: 17px; height: 17px; }
-
-.review--intro { background: linear-gradient(160deg, #2D5DFF 0%, #1238E0 100%); justify-content: space-between; }
-.review--intro p { font-size: 16px; font-weight: 500; }
-.review__more {
-  display: inline-flex; align-items: center; gap: 12px;
-  font-weight: 800; font-size: 15px;
-}
-.review__more .ic { width: 40px; height: 20px; stroke-width: 1.6; transition: transform .3s var(--ease); }
-@media (hover: hover) { .review__more:hover .ic { transform: translateX(5px); } }
 
 .reviews__dots { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; padding-inline: var(--gut); }
 .reviews__dots button {

@@ -284,7 +284,7 @@
       cards.forEach(function (card, i) {
         var b = document.createElement('button');
         b.type = 'button';
-        b.setAttribute('aria-label', i ? 'Отзыв ' + i + ' из ' + (cards.length - 1) : 'Введение к отзывам');
+        b.setAttribute('aria-label', 'Отзыв ' + (i + 1) + ' из ' + cards.length);
         on(b, 'click', function () { scrollToCard(i); });
         dotsBox.appendChild(b);
         dots.push(b);
