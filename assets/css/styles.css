@@ -877,8 +877,6 @@ i, em { font-style: normal; }
 .wcard p { margin-top: 6px; font-size: 12.5px; line-height: 1.45; color: rgba(255,255,255,.86); }
 
 /* ------------------------------------------------------------- 8b. IN THE GYM */
-.gymhead { text-align: center; }
-
 /* bento of real photos: tall frames span two rows, the rest fill in */
 .gym {
   display: grid;
@@ -886,7 +884,6 @@ i, em { font-style: normal; }
   grid-auto-rows: 168px;
   grid-auto-flow: dense;
   gap: 10px;
-  margin-top: 28px;
 }
 .gym__item {
   position: relative;
@@ -1474,7 +1471,7 @@ i, em { font-style: normal; }
   .work__s--4 { right: 372px; top: 548px; font-size: 40px; }
 
   /* in the gym: 4-column bento, two rows */
-  .gym { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 290px; gap: 16px; margin-top: 40px; }
+  .gym { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 290px; gap: 16px; }
   .gym__item { border-radius: var(--r-lg); }
   .gym__item figcaption { left: 20px; right: 20px; bottom: 18px; font-size: 17px; }
   .gym__cta { margin-top: 32px; }
